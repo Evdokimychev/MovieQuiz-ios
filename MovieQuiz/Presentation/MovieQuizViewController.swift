@@ -104,10 +104,10 @@ final class MovieQuizViewController: UIViewController {
     
     // приватный метод конвертации, который принимает моковый вопрос и возвращает вью модель для главного экрана
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel( // 1
-            image: UIImage(named: model.image) ?? UIImage(), // 2
-            question: model.text, // 3
-            questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)") // 4
+        let questionStep = QuizStepViewModel(
+            image: UIImage(named: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
         return questionStep
     }
     
@@ -116,10 +116,10 @@ final class MovieQuizViewController: UIViewController {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
+        imageView.layer.borderWidth = 0
     }
     
-    // приватный метод для показа результатов раунда квиза
-    // принимает вью модель QuizResultsViewModel и ничего не возвращает
+    // приватный метод для показа результатов раунда квиза, который принимает вью модель QuizResultsViewModel и ничего не возвращает
     private func show(quiz result: QuizResultsViewModel) {
         let alert = UIAlertController(
             title: result.title,
@@ -142,24 +142,24 @@ final class MovieQuizViewController: UIViewController {
     
     // метод вызывается, когда пользователь нажимает на кнопку "Да"
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex] // 1
-        let givenAnswer = true // 2
-        self.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer) // 3
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = true
+        self.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     // метод вызывается, когда пользователь нажимает на кнопку "Нет"
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex] // 1
-        let givenAnswer = false // 2
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = false
         
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer) // 3
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     // приватный метод, который и меняет цвет рамки, и вызывает метод перехода
     // принимает на вход булевое значение и ничего не возвращает
     private func showAnswerResult(isCorrect: Bool) {
-        if isCorrect { // 1
-            correctAnswers += 1 // 2
+        if isCorrect {
+            correctAnswers += 1
         }
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
@@ -178,12 +178,12 @@ final class MovieQuizViewController: UIViewController {
         if currentQuestionIndex == questions.count - 1 {
             // идём в состояние "Результат квиза"
             
-            let text = "Ваш результат: \(correctAnswers)/10" // 1
-            let viewModel = QuizResultsViewModel( // 2
+            let text = "Ваш результат: \(correctAnswers)/10"
+            let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
                 text: text,
                 buttonText: "Сыграть ещё раз")
-            show(quiz: viewModel) // 3
+            show(quiz: viewModel)
             
             // создаём объекты всплывающего окна
             let alert = UIAlertController(title: "Этот раунд окончен!", // заголовок всплывающего окна
@@ -193,7 +193,7 @@ final class MovieQuizViewController: UIViewController {
             // создаём для алерта кнопку с действием
             // в замыкании пишем, что должно происходить при нажатии на кнопку
             // константа с кнопкой для системного алерта
-            let action = UIAlertAction(title: "Сыграть ещё раз", style: .default) { _ in
+            let action = UIAlertAction(title: viewModel.title, style: .default) { _ in
                 
                 // код, который сбрасывает игру и показывает первый вопрос
                 self.currentQuestionIndex = 0
