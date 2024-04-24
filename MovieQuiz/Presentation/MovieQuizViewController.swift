@@ -126,7 +126,9 @@ final class MovieQuizViewController: UIViewController {
             message: result.text,
             preferredStyle: .alert)
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in // слабая ссылка на self
+            guard let self = self else { return } // разворачиваем слабую ссылку
+
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             
@@ -193,7 +195,9 @@ final class MovieQuizViewController: UIViewController {
             // создаём для алерта кнопку с действием
             // в замыкании пишем, что должно происходить при нажатии на кнопку
             // константа с кнопкой для системного алерта
-            let action = UIAlertAction(title: viewModel.title, style: .default) { _ in
+            let action = UIAlertAction(title: viewModel.title, style: .default) { [weak self] _ in // слабая ссылка на self
+                guard let self = self else { return } // разворачиваем слабую ссылку
+
                 
                 // код, который сбрасывает игру и показывает первый вопрос
                 self.currentQuestionIndex = 0
