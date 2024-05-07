@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
+final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, AlertPresenterDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -8,14 +8,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let questionFactory = QuestionFactory()
             questionFactory.delegate = self
             self.questionFactory = questionFactory
-        
-//        if let firstQuestion = questionFactory.requestNextQuestion() {
-//            currentQuestion = firstQuestion
-//            let viewModel = convert(model: firstQuestion)
-//               show(quiz: viewModel)
-//        }
+
         questionFactory.requestNextQuestion()
     }
+    
     // MARK: - QuestionFactoryDelegate
 
     func didReceiveNextQuestion(question: QuizQuestion?) {
@@ -32,10 +28,18 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
+    // MARK: - AlertPresenterDelegate
+    func show(alert: UIAlertController) {
+        self.present(alert, animated: true)
+    }
+    
     // MARK: - Actions
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet weak var yesButton: UIButton!
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
+    
     
     struct ViewModel {
         let image: UIImage
@@ -53,6 +57,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
+    private let alertPresenter: AlertPresenterProtocol = AlertPresenter()
     
     
     // MARK: - Private functions
@@ -101,7 +106,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             return
         }
         let givenAnswer = true
-        self.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        sender.isEnabled = false
     }
     
     // метод вызывается, когда пользователь нажимает на кнопку "Нет"
@@ -112,6 +119,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let givenAnswer = false
         
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        sender.isEnabled = false
     }
     
     // приватный метод, который и меняет цвет рамки, и вызывает метод перехода
@@ -174,6 +182,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             currentQuestionIndex += 1
             
             questionFactory?.requestNextQuestion()
+            yesButton.isEnabled = true
+            noButton.isEnabled = true
             }
         }
     }
