@@ -20,9 +20,6 @@ final class StatisticServiceImplementation: StatisticService {
     private enum Keys: String {
         case correct, total, bestGame, gamesCount
     }
-    //    func store(correct count: Int, total amount: Int) {
-    //        }
-    //    }
     
     var totalAccuracy: Double {
             get {

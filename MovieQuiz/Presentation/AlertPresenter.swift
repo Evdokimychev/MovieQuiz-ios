@@ -28,4 +28,8 @@ final class AlertPresenter: AlertPresenterProtocol {
         alert.addAction(action)
         delegate?.show(alert: alert)
     }
+    
+    init(delegate: AlertPresenterDelegate?) {
+        self.delegate = delegate
+    }
 }
