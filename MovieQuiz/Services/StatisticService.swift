@@ -1,18 +1,5 @@
-//
-//  StatisticService.swift
-//  MovieQuiz
-//
-//  Created by Для учёбы   on 08/05/2024.
-//
 
 import Foundation
-
-protocol StatisticService {
-    func store(correct count: Int, total amount: Int)
-    var totalAccuracy: Double { get }
-    var gamesCount: Int { get }
-    var bestGame: GameRecord { get }
-}
 
 final class StatisticServiceImplementation: StatisticService {
     private let userDefaults = UserDefaults.standard

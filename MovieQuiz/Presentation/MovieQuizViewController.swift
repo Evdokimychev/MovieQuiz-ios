@@ -70,6 +70,8 @@ final class MovieQuizViewController: UIViewController, AlertPresenterDelegate, M
             imageView.layer.borderColor = UIColor.ypBlack.cgColor
             questionLabel.text = step.question
             counterLabel.text = step.questionNumber
+            yesButton.isEnabled = true
+            noButton.isEnabled = true
         }
 
         func show(quiz result: QuizResultsViewModel) {
@@ -100,10 +102,12 @@ final class MovieQuizViewController: UIViewController, AlertPresenterDelegate, M
 
         @IBAction private func yesButtonClicked(_ sender: Any) {
             presenter.yesButtonClicked()
+            yesButton.isEnabled = false
+            
         }
 
         @IBAction private func noButtonClicked(_ sender: Any) {
-
             presenter.noButtonClicked()
+            noButton.isEnabled = false
         }
     }

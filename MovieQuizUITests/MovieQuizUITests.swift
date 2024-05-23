@@ -1,6 +1,7 @@
 
 import XCTest
 
+
 final class MovieQuizUITests: XCTestCase {
 
     var app: XCUIApplication!
@@ -24,6 +25,8 @@ final class MovieQuizUITests: XCTestCase {
         app = nil
     }
 
+    func testScreenCast() throws { }
+    
     func testYesButton() {
         sleep(3)
 
